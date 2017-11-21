@@ -10,5 +10,12 @@ class Blog_Table(models.Model):
     blog_slug=models.CharField(max_length=200, unique=True)
     creation_timestamp=models.DateField(db_index=True, auto_now_add=True)
     modified_timestamp=models.DateField(db_index=True, auto_now_add=True)
-    blog_body = models.TextField()
 
+
+class Blog_Part(models.Model):
+    blogID=models.ForeignKey(Blog_Table, on_delete=models.CASCADE)
+    date_of_creation = models.DateField(db_index=True, auto_now_add=True)
+    Last_Modified= models.DateField(db_index=True, auto_now_add=True)
+    Content = models.TextField()
+
+    
