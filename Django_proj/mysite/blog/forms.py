@@ -1,11 +1,14 @@
-from django import forms
 from django.forms import ModelForm
-from blog.models import Author
+from .models import Blog_Table, Blog_Part
 
+class BlogForm(ModelForm):
 
-class AuthorForm(forms.ModelForm):
-    name=forms.CharField(max_length=100)
     class Meta:
-        model = Author
-        fields=['name']
+        model = Blog_Table
+        fields = ['blog_title','blog_slug']
 
+class ContentForm(ModelForm):
+
+    class Meta:
+        model=Blog_Part
+        fields= ['part_title','slug','Content']

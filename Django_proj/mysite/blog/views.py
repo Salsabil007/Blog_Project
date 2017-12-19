@@ -1,65 +1,47 @@
 from django.http import HttpResponse
-from django.shortcuts import render_to_response, get_object_or_404, redirect
-from django.forms import ModelForm
-from django.views.generic import TemplateView
+from django.shortcuts import redirect, render
 
-from blog.forms import AuthorForm
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from blog.models import Author
+from blog.forms import BlogForm, ContentForm
+from django.http import HttpResponse
 
+from .models import Blog_Table
+from django.template import loader
 
 
-class HomeView(TemplateView):
-    template_name = 'blog/blog_page.html'
-
-
-    def post(self, request, text=None):
-        form = AuthorForm(request.POST)
-        if form.is_valid():
-         #   name = form.save(commit=False)
-            form.save(commit=False)
-
-            text = form.cleaned_data['post']
-            form = AuthorForm()
-            return redirect('home:vote')
-
-        args = {'form': form, 'text': text}
-        return render(request, self.template_name, args)
-
-
-
-
-
-def addbook(request):
-    form = AuthorForm()
-
-
-    if request.POST:
-        form = AuthorForm(request.POST)
-        if form.is_valid():
-            form.save()
-            form=AuthorForm()
-
-            return redirect('blog/vote')
-          #  book_formset = BookFormset(request.POST, instance=author)
-           # if book_formset.is_valid():
-             #   book_formset.save()
-            #return redirect('/index/')
-
-    return render_to_response('blog_page.html')
-
-
+def index2(request):
+    latest_question_list = Blog_Table.objects.all()
+    template = loader.get_template('blog/index2.html')
+    context = {
+        'latest_question_list': latest_question_list,
+    }
+    return HttpResponse(template.render(context, request))
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the blog index.")
+    return HttpResponse("Hello, world. You're at the blog project")
 
-def blog_page(request):
-    return render_to_response('blog/blog_page.html')
 
-def vote(request):
-    return HttpResponse("You're voting on question")
+def add_bloginfo(request):
+    if request.method == "POST":
+        form = BlogForm(request.POST)
+        if form.is_valid():
+            blog_item = form.save()
+            blog_item.save()
+            #return redirect('/blog/' + str(blog_item.id) + '/')
+            return redirect('/blog/')
+    else:
+        form = BlogForm()
+    return render(request, 'blog/blog.html', {'form': form})
 
-def cost(request):
-    return HttpResponse("You're costing on question")
+
+def add_content(request):
+    if request.method == "POST":
+        form = ContentForm(request.POST)
+        if form.is_valid():
+            blog_item = form.save()
+            blog_item.save()
+            #return redirect('/blog/' + str(blog_item.id) + '/')
+            return redirect('/blog/')
+    else:
+        form = ContentForm()
+    return render(request, 'blog/content.html', {'form': form})

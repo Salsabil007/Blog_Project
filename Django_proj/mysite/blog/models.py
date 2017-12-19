@@ -1,19 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.forms import ModelForm
 
-class Author(models.Model):
-    name = models.CharField(max_length=100)
-
-
-    def __str__(self):
-        return self.name
-
-
+# Create your models here.
 
 
 class Blog_Table(models.Model):
-    userID= models.ForeignKey(User, on_delete=models.CASCADE)
+    #userID= models.ForeignKey(User, on_delete=models.CASCADE)
     blog_title=models.CharField(max_length=200, unique=True)
     #Is_published=models.BooleanField(initial=True)
     blog_slug=models.CharField(max_length=200, unique=True)
@@ -28,7 +20,7 @@ class Blog_Table(models.Model):
 
 
 class Blog_Part(models.Model):
-    blogID=models.ForeignKey(Blog_Table, on_delete=models.CASCADE)
+    #blogID=models.ForeignKey(Blog_Table, on_delete=models.CASCADE)
     part_title = models.CharField(max_length=200, unique=True)
     date_of_creation = models.DateField(db_index=True, auto_now_add=True)
     Last_Modified= models.DateField(db_index=True, auto_now_add=True)
@@ -40,16 +32,4 @@ class Blog_Part(models.Model):
 
     def get_absolute_url(self):
         return 'view_blog_category', None, {'slug': self.slug}
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body>
+<form method="POST" action="">
+{% csrf_token %}
+
+    <div class="field_wrapper">
+
+    {{ form.title.errors }}
+
+    <label for="{{ form.title.id_for_label }}">Title:</label>
+
+    {{ form.title }}
+
+  </div>
+
+  <input type="submit" value="Save">
+</form>
+
+</body>
+</html>
