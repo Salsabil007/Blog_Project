@@ -6,6 +6,7 @@ from django.http import HttpResponse
 
 from .models import Blog_Table
 from django.template import loader
+from django.shortcuts import get_object_or_404
 
 
 def index2(request):
@@ -34,12 +35,17 @@ def add_bloginfo(request):
     return render(request, 'blog/blog.html', {'form': form})
 
 
-def add_content(request):
+def add_content(request, aaa_id):
     if request.method == "POST":
+        a = get_object_or_404(Blog_Table, id=aaa_id)
         form = ContentForm(request.POST)
         if form.is_valid():
+            #form.userID=a
             blog_item = form.save()
+            blog_item.userID = a
+
             blog_item.save()
+
             #return redirect('/blog/' + str(blog_item.id) + '/')
             return redirect('/blog/')
     else:
