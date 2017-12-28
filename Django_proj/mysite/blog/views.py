@@ -40,8 +40,8 @@ def add_content(request, aaa_id):
         a = get_object_or_404(Blog_Table, id=aaa_id)
         form = ContentForm(request.POST)
         if form.is_valid():
-            #form.userID=a
-            blog_item = form.save()
+            #form.userID=a.id
+            blog_item = form.save(commit=False)
             blog_item.userID = a
 
             blog_item.save()

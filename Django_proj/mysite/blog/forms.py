@@ -12,5 +12,5 @@ class ContentForm(ModelForm):
     class Meta:
 
         model=Blog_Part
-        exclude = ("blogID",)
+        #exclude = ("blogID",)
         fields= ['part_title','slug','Content']
